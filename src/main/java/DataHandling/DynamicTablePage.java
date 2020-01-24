@@ -32,17 +32,28 @@ public class DynamicTablePage {
 		System.out.println("Number of columns:" + column);
 
 		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-
+		boolean foundValue=false;
+		String expectedValueClick=null;
+		String value=null;
+		int foundAtRowNum=0;
 		for (int i = 0; i < row; i++) {
 			WebElement element = driver.findElement(By.xpath("//table/tbody/tr[" + (i + 1) + "]/td[1]/a"));
-			String value = element.getText();
-			if (value.equalsIgnoreCase("jet airways")) {
+			value = element.getText();
+			expectedValueClick="mangalore refine";
+			if (value.equalsIgnoreCase(expectedValueClick)) {
 				System.out.println(value);
 				element.click();
-				System.out.println("Found '"+value+"' in row:"+row);
+				foundValue=true;
+				foundAtRowNum=i+1;
 				break;
 			}
 		}
+		if(foundValue) {
+			System.out.println("'"+expectedValueClick+"' found in row:"+foundAtRowNum);
+		}else {
+			System.out.println("'"+expectedValueClick+"' not found");
+		}
+		driver.quit();
 	}
 
 }
